@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -15,7 +15,8 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate } from 'react-router';
 import { makeStyles } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
-import { loginWithGoogle } from '../../redux/actions/auth/auth.action';
+import { signInEmail, signInWithGoogle, signUpEmail } from '../../redux/actions/auth/auth.action';
+import { selectCurrentUser } from '../../redux/selectors/AuthSelector';
 
 const useStyles = makeStyles(() => ({
   signInLink: {
@@ -46,32 +47,32 @@ function Copyright(props) {
 
 const theme = createTheme();
 
-export default function SignIn() {
+const SignIn = () => {
   const navigate = useNavigate();
   const classes = useStyles();
   const dispatch = useDispatch();
-  const user = useSelector(state=>state.auth.user)
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    // eslint-disable-next-line no-console
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
-  };
+  const currentUser = useSelector(state=>state.auth.currentUser);
+
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   const handleSignInWithGoogle = () => {
-    dispatch(loginWithGoogle());
+    dispatch(signInWithGoogle());
   };
 
+  const handleSignInEmail = (event) => {
+    event.preventDefault();
+    dispatch(signInEmail(email, password));
+  };
 
   useEffect(() => {
-    if(user) {
+    if (currentUser?.uid) {
       navigate('/');
+    } else {
+      navigate('/sign-in');
     }
-  }, [dispatch, navigate, user]);
 
+  }, [dispatch, navigate, currentUser, currentUser?.uid]);
 
   return (
     <ThemeProvider theme={theme}>
@@ -93,7 +94,7 @@ export default function SignIn() {
           </Typography>
           <Box
             component='form'
-            onSubmit={handleSubmit}
+            onSubmit={handleSignInEmail}
             noValidate
             sx={{ mt: 1 }}
           >
@@ -106,6 +107,7 @@ export default function SignIn() {
               name='email'
               autoComplete='email'
               autoFocus
+              onChange={(e) => setEmail(e.target.value)}
             />
             <TextField
               margin='normal'
@@ -116,6 +118,7 @@ export default function SignIn() {
               type='password'
               id='password'
               autoComplete='current-password'
+              onChange={(e) => setPassword(e.target.value)}
             />
             <FormControlLabel
               control={<Checkbox value='remember' color='primary' />}
@@ -156,4 +159,5 @@ export default function SignIn() {
       </Container>
     </ThemeProvider>
   );
-}
+};
+export default SignIn;

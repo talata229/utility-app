@@ -1,48 +1,42 @@
-import { LOAD_PROFILE, LOGIN_FAIL, LOGIN_REQUEST, LOGIN_SUCCESS, LOG_OUT } from "../actions/auth/constant";
+import { Record, Map } from 'immutable';
+import {
+  AUTH_SIGN_IN_SUCCESS,
+  AUTH_SIGN_OUT,
+  AUTH_SIGN_UP_SUCCESS,
+} from '../actions/auth/constant';
 
-  
-  const initialState = {
-    accessToken: sessionStorage.getItem('ytc-access-token') || null,
-    user: sessionStorage.getItem('ytc-user')
-      ? JSON.parse(sessionStorage.getItem('ytc-user'))
-      : null,
-    loading: false,
-  };
-  export const authReducer = (prevState = initialState, action) => {
-    const { type, payload } = action;
-    switch (type) {
-      case LOGIN_REQUEST:
-        return {
-          ...prevState,
-          loading: true,
-        };
-      case LOGIN_SUCCESS:
-        return {
-          ...prevState,
-          loading: false,
-          accessToken: payload,
-        };
-      case LOGIN_FAIL:
-        return {
-          ...prevState,
-          loading: false,
-          accessToken: null,
-          error: payload,
-        };
-      case LOAD_PROFILE:
-        return {
-          ...prevState,
-          user: payload,
-        };
-      case LOG_OUT:
-        return {
-          ...prevState,
-          user: null,
-          loading: false,
-          accessToken: null,
-        };
-      default:
-        return prevState;
-    }
-  };
-  
+// const initialState = {
+//   currentUser: null,
+// };
+const AuthState = Record({
+  currentUser: {
+    uid: '',
+    email: '',
+    accessToken: '',
+    refreshToken: '',
+    displayName: '',
+    photoURL: '',
+    phoneNumber: ''
+  },
+});
+const initialState = new AuthState();
+
+export const authReducer = (prevState = initialState, action) => {
+  const { type, payload } = action;
+  switch (type) {
+    case AUTH_SIGN_IN_SUCCESS:
+      return {
+        ...prevState,
+        currentUser: payload,
+      };
+
+    case AUTH_SIGN_OUT:
+      return {
+        ...prevState,
+        currentUser: null,
+      };
+    default:
+      debugger
+      return prevState;
+  }
+};

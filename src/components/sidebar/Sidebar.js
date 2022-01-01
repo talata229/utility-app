@@ -1,18 +1,17 @@
 import React, { useState } from 'react';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
-import Button from '@mui/material/Button';
 import List from '@mui/material/List';
 import Divider from '@mui/material/Divider';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
 import { useDispatch, useSelector } from 'react-redux';
 import { toggleSidebar } from '../../redux/actions/config/config.action';
 import SidebarHeader from './SidebarHeader';
-import { log_out } from '../../redux/actions/auth/auth.action';
+import { Link } from 'react-router-dom';
+import { logOut } from '../../redux/actions/auth/auth.action';
 
 const SidebarCustom = () => {
   const dispatch = useDispatch();
@@ -21,9 +20,9 @@ const SidebarCustom = () => {
   const toggleDrawer = () => {
     dispatch(toggleSidebar(!isOpen));
   };
-const handleLogout = () => {
-  dispatch(log_out())
-}
+  const handleLogout = () => {
+     dispatch(logOut());
+  };
   const list = (anchor) => (
     <Box
       sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : 250 }}
@@ -31,23 +30,41 @@ const handleLogout = () => {
       onClick={() => toggleDrawer(true)}
     >
       <List>
-        {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>
-              {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-            </ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
-      </List>
-      <Divider />
-      <List>
-          <ListItem button key='Spam'>
+        <Link to='/inbox'>
+          <ListItem button key='Inbox'>
             <ListItemIcon>
               <InboxIcon />
             </ListItemIcon>
-            <ListItemText primary='Spam' />
+            <ListItemText primary='Inbox' />
           </ListItem>
+        </Link>
+        <Link to='/drafts'>
+          <ListItem button key='Drafts'>
+            <ListItemIcon>
+              <InboxIcon />
+            </ListItemIcon>
+            <ListItemText primary='Drafts' />
+          </ListItem>
+        </Link>
+      </List>
+      <Divider />
+      <List>
+        <Link to='/firebase-test'>
+          <ListItem button key='Firebase Test'>
+            <ListItemIcon>
+              <InboxIcon />
+            </ListItemIcon>
+            <ListItemText primary='Firebase Test' />
+          </ListItem>
+        </Link>
+        <Link to='/drafts'>
+          <ListItem button key='Drafts'>
+            <ListItemIcon>
+              <InboxIcon />
+            </ListItemIcon>
+            <ListItemText primary='Drafts' />
+          </ListItem>
+        </Link>
           <ListItem button key='Logout' onClick={handleLogout}>
             <ListItemIcon>
               <InboxIcon />

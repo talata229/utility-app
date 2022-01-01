@@ -23,17 +23,19 @@ const ResponsiveAppBar = () => {
     <AppBar position='static'>
       <Container maxWidth='xl'>
         <Toolbar disableGutters>
-          <MenuIcon onClick={() => dispatch(toggleSidebar(!isOpenSidebar))} />
+          <Box>
+            <MenuIcon onClick={() => dispatch(toggleSidebar(!isOpenSidebar))} />
+          </Box>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
-            <IconButton
+            {/* <IconButton
               size='large'
               aria-label='account of current user'
               aria-controls='menu-appbar'
               aria-haspopup='true'
               onClick={handleOpenNavMenu}
               color='inherit'
-            ></IconButton>
+            ></IconButton> */}
           </Box>
           <Typography
             variant='h6'

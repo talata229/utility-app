@@ -1,39 +1,3 @@
-// import React, { useEffect } from 'react';
-// import { useDispatch, useSelector } from 'react-redux';
-// import { useNavigate } from 'react-router';
-// import { login } from '../../redux/actions/auth.action';
-// import Button from '@mui/material/Button';
-// const LoginScreen = () => {
-//     // const dispatch = useDispatch();
-//     // const accessToken = useSelector((state) => state.auth.accessToken);
-//     // const navigate = useNavigate();
-
-//     // const handleLogin = () => {
-//     //   dispatch(login());
-//     // };
-//     // useEffect(() => {
-//     //   if (accessToken) {
-//     //     navigate("/");
-//     //   }
-//     // }, [accessToken, navigate]);
-//     // return (
-//     //   <div className='login'>
-//     //     <div className='login__container'>
-//     //       <img src='http://pngimg.com/uploads/youtube/youtube_PNG2.png' alt='' />
-//     //       <button onClick={handleLogin}>Login With Google</button>
-//     //       <p>A Youtube clone project made using Youtube api</p>
-//     //     </div>
-//     //   </div>
-//     // );
-//     return (
-//         <Button variant="contained" color="primary">
-//         Hello World
-//       </Button>
-//     )
-// };
-
-// export default LoginScreen;
-
 import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';

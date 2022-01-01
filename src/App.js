@@ -13,37 +13,41 @@ import SignIn from './screen/loginScreen/SignIn';
 import SignUp from './screen/loginScreen/SignUp';
 import Test from './screen/loginScreen/Test';
 import LayoutContainer from './components/layout/LayoutContainer';
+import FirebaseTestScreen from './screen/firebaseTest/FirebaseTestScreen';
+import PrivateRoute from './components/my/Layout/PrivateRoute';
 
 const App = () => {
-  const { accessToken, loading } = useSelector((state) => state.auth);
-
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (!loading && !accessToken) {
-      navigate('/sign-in');
-    }
-  }, [accessToken, loading, navigate]);
-
   return (
     <Routes>
       <Route
         path='/'
         element={
-          <LayoutContainer>
-            <HomeScreen></HomeScreen>
-          </LayoutContainer>
+          <PrivateRoute>
+            <LayoutContainer>
+              <HomeScreen></HomeScreen>
+            </LayoutContainer>
+          </PrivateRoute>
         }
         exact
       />
       <Route path='/sign-up' element={<SignUp />} />
       <Route path='/sign-in' element={<SignIn />} />
-      <Route
+      {/* <Route
         path='/test2'
         element={
           <LayoutContainer>
             <Test></Test>
           </LayoutContainer>
+        }
+      ></Route> */}
+      <Route
+        path='/firebase-test'
+        element={
+          <PrivateRoute>
+            <LayoutContainer>
+              <FirebaseTestScreen></FirebaseTestScreen>
+            </LayoutContainer>
+          </PrivateRoute>
         }
       ></Route>
     </Routes>

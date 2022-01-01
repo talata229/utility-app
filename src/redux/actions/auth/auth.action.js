@@ -1,55 +1,102 @@
 import firebase from 'firebase/compat/app';
-
+import 'react-toastify/dist/ReactToastify.css';
 import auth from '../../../firebase';
-import { LOAD_PROFILE, LOGIN_FAIL, LOGIN_REQUEST, LOGIN_SUCCESS, LOG_OUT } from './constant';
+import {
+  AUTH_SIGN_IN_ERROR,
+  AUTH_SIGN_IN_START,
+  AUTH_SIGN_IN_SUCCESS,
+  AUTH_SIGN_OUT,
+  AUTH_SIGN_UP_ERROR,
+  AUTH_SIGN_UP_START,
+  AUTH_SIGN_UP_SUCCESS,
+} from './constant';
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+} from 'firebase/auth';
+export const logOut = () => async (dispatch) => {
+  await auth.signOut();
+  dispatch({
+    type: AUTH_SIGN_OUT,
+  });
+};
 
+export const signUpEmail = (email, password) => async (dispatch, getState) => {
+  dispatch({
+    type: AUTH_SIGN_UP_START,
+  });
+  const authentication = getAuth();
+  const response = await createUserWithEmailAndPassword(
+    authentication,
+    email,
+    password
+  );
 
-export const loginWithGoogle = () => async (dispatch) => {
-  try {
+  if (response) {
     dispatch({
-      type: LOGIN_REQUEST,
+      type: AUTH_SIGN_UP_SUCCESS,
+      payload: response.user,
     });
-    const provider = new firebase.auth.GoogleAuthProvider();
-    provider.addScope('https://www.googleapis.com/auth/youtube.force-ssl');
-    
-    const res = await auth.signInWithPopup(provider);
-    const accessToken = res.credential.accessToken;
-    // console.log(res);
-    const profile = {
-      name: res.additionalUserInfo.profile.name,
-      photoURL: res.additionalUserInfo.profile.picture,
-    };
+    sessionStorage.setItem('AuthToken', response._tokenResponse.refreshToken);
+  } else {
     dispatch({
-      type: LOGIN_SUCCESS,
-      payload: accessToken,
-    });
-
-    sessionStorage.setItem('ytc-access-token', accessToken);
-    sessionStorage.setItem('ytc-user', JSON.stringify(profile));
-
-    dispatch({
-      type: LOAD_PROFILE,
-      payload: profile,
-    });
-  } catch (error) {
-    console.log(error);
-    dispatch({
-      type: LOGIN_FAIL,
-      payload: error.message,
+      type: AUTH_SIGN_UP_ERROR,
     });
   }
 };
 
-export const log_out = () => async (dispatch) => {
-  try {
-    await auth.signOut();
-    dispatch({
-      type: LOG_OUT,
-    });
+export const signInEmail = (email, password) => async (dispatch, getState) => {
+  dispatch({
+    type: AUTH_SIGN_IN_START,
+  });
+  const authentication = getAuth();
+  const response = await signInWithEmailAndPassword(
+    authentication,
+    email,
+    password
+  );
+  
+  const user = {
+    uid: response.user.uid,
+    email: response.user.email,
+    accessToken: response.user.accessToken,
+    refreshToken: response.user.refreshToken,
+    displayName: response.user.displayName,
+    photoURL: response.user.photoURL,
+    phoneNumber: response.user.phoneNumber,
+  };
 
-    sessionStorage.removeItem('ytc-access-token');
-    sessionStorage.removeItem('ytc-user');
-  } catch (error) {
-    console.log(error);
+  if (response) {
+    dispatch({
+      type: AUTH_SIGN_IN_SUCCESS,
+      payload: user,
+    });
+  } else {
+    dispatch({
+      type: AUTH_SIGN_IN_ERROR,
+    });
   }
+};
+
+export const signInWithGoogle = () => async (dispatch) => {
+  dispatch({
+    type: AUTH_SIGN_IN_START,
+  });
+  const provider = new firebase.auth.GoogleAuthProvider();
+  provider.addScope('https://www.googleapis.com/auth/youtube.force-ssl');
+  const response = await auth.signInWithPopup(provider);
+  const user = {
+    uid: response.user.uid,
+    email: response.user.email,
+    accessToken: response.credential.accessToken,
+    refreshToken: response.user.refreshToken,
+    displayName: response.user.displayName,
+    photoURL: response.user.photoURL,
+    phoneNumber: response.user.phoneNumber,
+  };
+  dispatch({
+    type: AUTH_SIGN_IN_SUCCESS,
+    payload: user,
+  });
 };

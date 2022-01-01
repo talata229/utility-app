@@ -1,5 +1,15 @@
-export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
-export const LOGIN_FAIL = 'LOGIN_FAIL';
-export const LOGIN_REQUEST = 'LOGIN_REQUEST';
-export const LOG_OUT = 'LOG_OUT';
-export const LOAD_PROFILE = 'LOAD_PROFILE';
+// export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
+// export const LOGIN_FAIL = 'LOGIN_FAIL';
+// export const LOGIN_REQUEST = 'LOGIN_REQUEST';
+// export const LOG_OUT = 'LOG_OUT';
+// export const LOAD_PROFILE = 'LOAD_PROFILE';
+
+export const AUTH_SIGN_OUT = 'AUTH/SIGN_OUT';
+
+export const AUTH_SIGN_UP_START = 'AUTH/SIGN_UP_START';
+export const AUTH_SIGN_UP_SUCCESS = 'AUTH/SIGN_UP_SUCCESS';
+export const AUTH_SIGN_UP_ERROR = 'AUTH/SIGN_UP_ERROR';
+
+export const AUTH_SIGN_IN_START = 'AUTH/SIGN_IN_START';
+export const AUTH_SIGN_IN_SUCCESS = 'AUTH/SIGN_IN_SUCCESS';
+export const AUTH_SIGN_IN_ERROR = 'AUTH/SIGN_IN_ERROR';

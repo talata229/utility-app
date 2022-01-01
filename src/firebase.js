@@ -1,7 +1,7 @@
- import firebase from 'firebase/compat/app';
+import firebase from 'firebase/compat/app';
 
- import 'firebase/compat/auth';
-
+import 'firebase/compat/auth';
+import { getFirestore } from '@firebase/firestore';
 // const firebaseConfig = {
 //   apiKey: 'AIzaSyDNPtj0FB3PkV8ZCVZr8aVFupPhV8T3WDA',
 //   authDomain: 'clone-app-737eb.firebaseapp.com',
@@ -12,16 +12,16 @@
 // };
 
 const firebaseConfig = {
-    apiKey: "AIzaSyCljN85u2gYM3tgjdWfkzEmdGmoy8Q3-Kw",
-    authDomain: "utility-app-bdbb8.firebaseapp.com",
-    projectId: "utility-app-bdbb8",
-    storageBucket: "utility-app-bdbb8.appspot.com",
-    messagingSenderId: "768478357219",
-    appId: "1:768478357219:web:609f3211d4ca19a8d487d6",
-    measurementId: "G-GCHE470XV5"
-  };
+  apiKey: 'AIzaSyCljN85u2gYM3tgjdWfkzEmdGmoy8Q3-Kw',
+  authDomain: 'utility-app-bdbb8.firebaseapp.com',
+  projectId: 'utility-app-bdbb8',
+  storageBucket: 'utility-app-bdbb8.appspot.com',
+  messagingSenderId: '768478357219',
+  appId: '1:768478357219:web:609f3211d4ca19a8d487d6',
+  measurementId: 'G-GCHE470XV5',
+};
 
-
-firebase.initializeApp(firebaseConfig);
+const app = firebase.initializeApp(firebaseConfig);
+export const db = getFirestore(app);
 
 export default firebase.auth();

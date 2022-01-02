@@ -5,6 +5,7 @@ import {
   Route,
   Link,
   useNavigate,
+  useRoutes,
 } from 'react-router-dom';
 
 import { useSelector } from 'react-redux';
@@ -14,25 +15,30 @@ import SignUp from './screen/loginScreen/SignUp';
 import Test from './screen/loginScreen/Test';
 import LayoutContainer from './components/layout/LayoutContainer';
 import FirebaseTestScreen from './screen/firebaseTest/FirebaseTestScreen';
-import PrivateRoute from './components/my/Layout/PrivateRoute';
+import AuthGuard from './app/auth';
+import { AllPages } from './routes/routes';
 
 const App = () => {
+  const all_pages = useRoutes(AllPages());
   return (
-    <Routes>
-      <Route
-        path='/'
-        element={
-          <PrivateRoute>
-            <LayoutContainer>
-              <HomeScreen></HomeScreen>
-            </LayoutContainer>
-          </PrivateRoute>
-        }
-        exact
-      />
-      <Route path='/sign-up' element={<SignUp />} />
-      <Route path='/sign-in' element={<SignIn />} />
-      {/* <Route
+    <>
+      {' '}
+      {all_pages}
+      <Routes>
+        <Route
+          path='/'
+          element={
+            <AuthGuard>
+              <LayoutContainer>
+                <HomeScreen></HomeScreen>
+              </LayoutContainer>
+            </AuthGuard>
+          }
+          exact
+        />
+        <Route path='/sign-up' element={<SignUp />} />
+        <Route path='/sign-in' element={<SignIn />} />
+        {/* <Route
         path='/test2'
         element={
           <LayoutContainer>
@@ -40,17 +46,16 @@ const App = () => {
           </LayoutContainer>
         }
       ></Route> */}
-      <Route
-        path='/firebase-test'
-        element={
-          <PrivateRoute>
+        <Route
+          path='/firebase-test'
+          element={
             <LayoutContainer>
               <FirebaseTestScreen></FirebaseTestScreen>
             </LayoutContainer>
-          </PrivateRoute>
-        }
-      ></Route>
-    </Routes>
+          }
+        ></Route>
+      </Routes>
+    </>
   );
 };
 

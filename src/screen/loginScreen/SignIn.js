@@ -17,6 +17,7 @@ import { makeStyles } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import { signInEmail, signInWithGoogle, signUpEmail } from '../../redux/actions/auth/auth.action';
 import { selectCurrentUser } from '../../redux/selectors/AuthSelector';
+import useAuth from '../../hooks/useAuth';
 
 const useStyles = makeStyles(() => ({
   signInLink: {
@@ -51,7 +52,8 @@ const SignIn = () => {
   const navigate = useNavigate();
   const classes = useStyles();
   const dispatch = useDispatch();
-  const currentUser = useSelector(state=>state.auth.currentUser);
+  // const currentUser = useSelector(state=>state.auth.currentUser);
+  const { login } = useAuth()
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -60,19 +62,22 @@ const SignIn = () => {
     dispatch(signInWithGoogle());
   };
 
-  const handleSignInEmail = (event) => {
+  const handleSignInEmail = async (event) => {
+    // event.preventDefault();
+    // dispatch(signInEmail(email, password));
     event.preventDefault();
-    dispatch(signInEmail(email, password));
+    await login(email, password);
+    navigate('/')
   };
 
-  useEffect(() => {
-    if (currentUser?.uid) {
-      navigate('/');
-    } else {
-      navigate('/sign-in');
-    }
+  // useEffect(() => {
+  //   if (currentUser?.uid) {
+  //     navigate('/');
+  //   } else {
+  //     navigate('/sign-in');
+  //   }
 
-  }, [dispatch, navigate, currentUser, currentUser?.uid]);
+  // }, [dispatch, navigate, currentUser, currentUser?.uid]);
 
   return (
     <ThemeProvider theme={theme}>

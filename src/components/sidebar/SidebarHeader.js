@@ -23,7 +23,7 @@ const SidebarHeader = () => {
         <Link to='/'>
           <Avatar
             alt='KwangTran'
-            src={currentUser.photoURL || myAvatar }
+            src={currentUser?.photoURL || myAvatar }
             sx={{ width: 56, height: 56 }}
           />
         </Link>

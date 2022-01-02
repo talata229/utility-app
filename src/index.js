@@ -5,14 +5,17 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux';
 import store from './redux/store';
-import { BrowserRouter as Router} from 'react-router-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
+import { AuthProvider } from './contexts/JWTAuthContext';
 
 ReactDOM.render(
-    <Provider store={store}>
+  <Provider store={store}>
+    <AuthProvider>
       <Router>
         <App />
       </Router>
-    </Provider>,
+    </AuthProvider>
+  </Provider>,
   document.getElementById('root')
 );
 

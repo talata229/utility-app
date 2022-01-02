@@ -5,9 +5,9 @@ import {
   AUTH_SIGN_UP_SUCCESS,
 } from '../actions/auth/constant';
 
-// const initialState = {
-//   currentUser: null,
-// };
+const initialState = {
+  currentUser: null,
+};
 const AuthState = Record({
   currentUser: {
     uid: '',
@@ -19,7 +19,7 @@ const AuthState = Record({
     phoneNumber: ''
   },
 });
-const initialState = new AuthState();
+// const initialState = new AuthState();
 
 export const authReducer = (prevState = initialState, action) => {
   const { type, payload } = action;
@@ -36,7 +36,7 @@ export const authReducer = (prevState = initialState, action) => {
         currentUser: null,
       };
     default:
-      debugger
-      return prevState;
+      // debugger
+        return { ...prevState };
   }
 };
